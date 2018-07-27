@@ -1,0 +1,46 @@
+{{- $stateful := or .Values.persistence.enablePercistency -}}
+apiVersion: v1
+kind: Service
+metadata:
+{{ if $stateful }}
+  name: {{ template "fullname" . }}-txlistener-np
+{{ else }}
+  name: {{ template "fullname" . }}-txlistener
+{{ end }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"      
+spec:
+  ports:
+  - port: {{ .Values.listener_service.port }}
+    targetPort: {{ .Values.listener_service.targetPort }}
+    protocol: TCP
+    name: {{ .Values.listener_service.name | trunc 63 | lower | trimSuffix "-" | quote }}
+  type: {{ .Values.listener_service.type }}
+  selector:
+    app: {{ template "fullname" . }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+{{ if $stateful }}
+  name: {{ template "fullname" . }}-txadmin-np
+{{ else }}
+  name: {{ template "fullname" . }}-txadmin
+{{ end }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"      
+spec:
+  ports:
+  - port: {{ .Values.admin_service.port }}
+    targetPort: {{ .Values.admin_service.targetPort }}
+    protocol: TCP
+    name: {{ .Values.admin_service.name | trunc 63 | lower | trimSuffix "-" | quote }}
+  type: {{ .Values.admin_service.type }}
+  selector:
+    app: {{ template "fullname" . }}

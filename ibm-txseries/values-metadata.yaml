@@ -1,0 +1,284 @@
+image:
+  __metadata:
+    label: "Image"
+  repository:
+    __metadata:
+      name: "repository"
+      label: "Repository"
+      description: "Dcker image location"
+      type: "string"
+      immutable: false
+      required: true
+  tag:
+    __metadata:
+      name: "tag"
+      label: "Tag"
+      description: "Docker image tag"
+      type: "string"
+      immutable: false
+      required: true
+  pullPolicy:
+    __metadata:
+      name: "pullPolicy"
+      label: "Docker image pull policy"
+      description: "Defaults to 'Always' when the latest tag is specified. Otherwise the default is 'IfNotPresent'."
+      type: "string"
+      immutable: false
+      required: true
+      options:
+      - label: "Always"
+        value: "Always"
+      - label: "Never"
+        value: "Never"
+      - label: "IfNotPresent"
+        value: "IfNotPresent"
+
+# TXSeries Administration Console Service
+admin_service:
+  __metadata:
+    label: "TXSeries Administration Console Service"
+  type:
+    __metadata:
+      name: "type"
+      label: "Service Type"
+      description: "Type of service"
+      type: "string"
+      immutable: false
+      required: true
+      options:
+        - label: "Cluster IP"
+          value: "ClusterIP"
+        - label: "Node Port"
+          value: "NodePort"
+  name:
+    __metadata:
+      name: "name"
+      label: "Name"
+      description: "The name of the service"
+      type: "string"
+      immutable: false
+      required: true
+  port:
+    __metadata:
+      name: "port"
+      label: "Port"
+      description: "The port that the container will expose"
+      type: "number"
+      immutable: false
+      required: true
+  targetPort:
+    __metadata:
+      name: "targetPort"
+      label: "Target port"
+      description: "A service can map an incoming port to the targetPort."
+      type: "string"
+      immutable: false
+      required: false
+
+# TXSeries Listener Services
+listener_service:
+  __metadata:
+    label: "TXSeries Listener Service"
+  type:
+    __metadata:
+      name: "type"
+      label: "Service Type"
+      description: "Type of service"
+      type: "string"
+      immutable: false
+      required: true
+      options:
+        - label: "Cluster IP"
+          value: "ClusterIP"
+        - label: "Node Port"
+          value: "NodePort"
+  name:
+    __metadata:
+      name: "name"
+      label: "Name"
+      description: "The name of the service"
+      type: "string"
+      immutable: false
+      required: true
+      options:
+        - label: "IPIC Service"
+          value: "IPIC-Service"
+        - label: "CICS TCP/IP Service"
+          value: "CICS-TCPIP-Service"
+        - label: "CICS TELNET Service"
+          value: "CICS-TELNET-Service"
+  port:
+    __metadata:
+      name: "port"
+      label: "Port"
+      description: "The port that the container will expose"
+      type: "number"
+      immutable: false
+      required: true
+  targetPort:
+    __metadata:
+      name: "targetPort"
+      label: "Target port"
+      description: "A service can map an incoming port to the targetPort."
+      type: "string"
+      immutable: false
+      required: false
+
+# Persistence
+persistence:
+  __metadata:
+    label: "Persistence"
+  enablePercistency:
+    __metadata:
+      name: "enablePercistency"
+      label: "Enable Persistency"
+      description: "Set to true to enable recovery of TXSeries Region/SFS resources. The Region/SFS data will be persisted to the volume bound according to the persistence parameters."
+      type: "boolean"
+      immutable: false
+      required: true
+  useDynamicProvisioning:
+    __metadata:
+      name: "useDynamicProvisioning"
+      label: "Use dynamic provisioning"
+      description: "If true, the persistent volume claim will use the storageClassName to bind the volume. If storageClassName is not set, it will use the default storageClass setup by kube Administrator.  If false, the selector will be used for the binding process."
+      type: "boolean"
+      immutable: false
+      required: true
+  name:
+    __metadata:
+      name: "name"
+      label: "Name"
+      description: "A prefix for the name of the persistence volume claim (PVC). A PVC will not be created unless 'Persist TXSeries region and sfs data' is checked."
+      type: "string"
+      immutable: false
+      required: true
+  size:
+    __metadata:
+      name: "size"
+      label: "Size"
+      description: "Size of the volume to hold all the persisted data."
+      type: "string"
+      immutable: false
+      required: true
+  selector.label:
+    __metadata:
+      name: "selector.label"
+      label: "Selector label"
+      description: "When matching a PV, the label is used to find a match on the key."
+      type: "string"
+      immutable: false
+      required: false
+  selector.value:
+    __metadata:
+      name: "selector.value"
+      label: "Selector value"
+      description: "When matching a PV, the value is used to find a match on the value."
+      type: "string"
+      immutable: false
+      required: false
+  storageClassName:
+    __metadata:
+      name: "storageClassName"
+      label: "Storage class name"
+      description: "Specifies a StorageClass pre-created by the sysadmin. When set to \"\", then the PVC is bound to the default storageClass setup by the Kube administrator."
+      type: "string"
+      immutable: false
+      required: false
+
+replicaCount:
+  __metadata:
+    name: "replicaCount"
+    label: "Number of replicas"
+    description: "The number of desired replica pods that run simultaneously."
+    type: "number"
+    default: 1
+    immutable: false
+    required: true
+
+autoscaling:
+  __metadata:
+    label: "Automatically scale pods"
+  enabled:
+    __metadata:
+      name: "enabled"
+      label: "Enable automatic scaling"
+      description: "Specifies whether a horizontal pod autoscaler (HPA) is deployed. Note that enabling this field disables the Number of replicas field."
+      type: "boolean"
+      immutable: false
+      required: true
+  targetCPUUtilizationPercentage:
+    __metadata:
+      name: "targetCPUUtilizationPercentage"
+      label: "Target CPU utilization percentage"
+      description: "Target average CPU utilization (represented as a percentage of requested CPU) over all the pods."
+      type: "number"
+      default: 50
+      immutable: false
+      required: true
+  minReplicas:
+    __metadata:
+      name: "minReplicas"
+      label: "Minimum number of replicas"
+      description: "Lower limit for the number of pods that can be set by the autoscaler."
+      type: "number"
+      default: 1
+      immutable: false
+      required: true
+  maxReplicas:
+    __metadata:
+      name: "maxReplicas"
+      label: "Maximum number of replicas"
+      description: "Upper limit for the number of pods that can be set by the autoscaler.  Cannot be lower than the minimum number of replicas."
+      type: "number"
+      default: 10
+      immutable: false
+      required: true
+
+resources:
+  __metadata:
+    label: "Resources"
+  constraints.enabled:
+    __metadata:
+      name: "constraints.enabled"
+      label: "Enable contraints"
+      description: "Specifies whether the resource constraints in this Helm chart are enabled."
+      type: "boolean"
+      immutable: false
+      required: true
+  limits.cpu:
+    __metadata:
+      name: "limits.cpu"
+      label: "Maximum CPU"
+      description: "Describes the maximum amount of CPU allowed."
+      type: "string"
+      default: "50m"
+      immutable: false
+      required: false
+  limits.memory:
+    __metadata:
+      name: "limits.memory"
+      label: "Maximum memory"
+      description: "Describes the maximum amount of memory allowed."
+      type: "string"
+      default: "512Mi"
+      immutable: false
+      required: false
+  requests.cpu:
+    __metadata:
+      name: "requests.cpu"
+      label: "Minimum CPU"
+      description: "Describes the minimum amount of CPU required. Cooresponds to requests.cpu in Kubernetes. If not specified it will default to maximum CPU (if specified) or otherwise implementation-defined value."
+      type: "string"
+      default: "500m"
+      immutable: false
+      required: false
+  requests.memory:
+    __metadata:
+      name: "requests.memory"
+      label: "Minimum memory"
+      description: "Describes the minimum amount of memory required. Cooresponds to requests.memory in Kubernetes. If not specified it will default to maximum memory (if specified) or otherwise implementation-defined value."
+      type: "string"
+      default: "512Mi"
+      immutable: false
+      required: false
+

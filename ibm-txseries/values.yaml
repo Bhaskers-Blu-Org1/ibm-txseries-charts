@@ -1,0 +1,60 @@
+image:
+  repository: txseries
+  tag: beta
+  pullPolicy: IfNotPresent
+
+admin_service:
+  type: NodePort
+  name: TXAdminConsole
+  port: 9443 
+  targetPort: 9443 
+
+listener_service:
+  type: NodePort
+  name: IPIC-Service 
+  port: 1435
+  targetPort: 1435
+
+###############################################################################
+## Persistence Storage
+###############################################################################
+
+## Persistence is disabled by default, set Enabled: true to use
+persistence:
+  enablePercistency: true
+  useDynamicProvisioning: true
+  name: "txseries-pvc"
+  ## Tranlog requires a Persistence Storage volume size minimum of 1Gi
+  size: "1Gi"
+  # if your not using dynamic provisioning, you can use selectors to 
+  # refine the binding process. You cannot specify a selector if your using dynamic provisioning!
+  selector:
+    label: ""
+    value: ""
+  ## Specify the name of the StorageClass
+  ## Setting StorageClass: "" will use whatever storageClass is currently
+  ## setup as the Default
+  storageClassName: "" 
+
+###############################################################################
+## Auto scaling
+###############################################################################
+replicaCount: 1
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+  
+###############################################################################
+## Resource constraints
+###############################################################################
+resources:
+  constraints: 
+    enabled: false
+  requests:
+    cpu: 500m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi

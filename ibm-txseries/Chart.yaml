@@ -1,0 +1,11 @@
+apiVersion: v1
+description: IBM TXSeries for Multiplatforms 9.2 Open Beta for Linux on amd64
+home: https://store.docker.com/images/txseries
+icon: https://developer.ibm.com/wasdev/wp-content/uploads/sites/9/2015/10/liberty-logo-01.png
+name: ibm-txseries
+sources:
+  - https://github.com/IBM/charts/tree/master/stable
+maintainers:
+  - name: IBM TXSeries for Multiplatforms
+version: 1.0.0
+tillerVersion: ">=2.4.0"

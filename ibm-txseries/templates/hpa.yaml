@@ -1,0 +1,29 @@
+{{- $stateful := or .Values.persistence.enablePercistency -}}
+{{ if .Values.autoscaling.enabled -}}
+apiVersion: autoscaling/v2beta1 
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "fullname" . }}-hpa
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    app: {{ template "fullname" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"    
+spec:
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  scaleTargetRef:
+    {{ if $stateful }}
+    apiVersion: apps/v1
+    kind: StatefulSet
+    {{ else }}
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    {{ end }}
+    name: {{ template "fullname" . }}
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+{{- end }}
