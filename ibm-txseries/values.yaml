@@ -35,7 +35,7 @@ listener_service:
 
 ## Persistence is disabled by default, set Enabled: true to use
 persistence:
-  enablePercistency: true
+  enablePersistence: true
   useDynamicProvisioning: true
   name: "txseries-pvc"
   ## Tranlog requires a Persistence Storage volume size minimum of 1Gi

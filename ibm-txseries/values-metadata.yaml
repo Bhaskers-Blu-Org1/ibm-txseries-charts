@@ -142,10 +142,10 @@ listener_service:
 persistence:
   __metadata:
     label: "Persistence"
-  enablePercistency:
+  enablePersistence:
     __metadata:
-      name: "enablePercistency"
-      label: "Enable Persistency"
+      name: "enablePersistence"
+      label: "Enable Persistence"
       description: "Set to true to enable recovery of TXSeries Region/SFS resources. The Region/SFS data will be persisted to the volume bound according to the persistence parameters."
       type: "boolean"
       immutable: false

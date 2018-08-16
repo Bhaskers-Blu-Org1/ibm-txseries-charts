@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- $stateful := or .Values.persistence.enablePercistency -}}
+{{- $stateful := or .Values.persistence.enablePersistence -}}
 {{ if .Values.autoscaling.enabled -}}
 apiVersion: autoscaling/v2beta1 
 kind: HorizontalPodAutoscaler

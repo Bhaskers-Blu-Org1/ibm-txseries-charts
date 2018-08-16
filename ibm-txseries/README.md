@@ -32,8 +32,8 @@ The Helm chart has the following values that can be overriden using the --set pa
 |           | type       | Specify type of service. | Valid options are  ClusterIP and NodePort. See Publishing services - service types. |
 |           | port       | The port that this container exposes for TXSeries listener connectivity.  |   |
 |           | targetPort | Port that will be exposed externally by the pod. | |
-| persistence | name                   | Descriptive name that will be used to prefix the generated persistence volume claim. A volume is only bound if either persistence.enablePersistency is set to true. | |
-|             | enablePersistency | When true, the TXSeries region/SFS Server resources will be persisted to the volume bound according to the persistence parameters. | true(default) or false|
+| persistence | name                   | Descriptive name that will be used to prefix the generated persistence volume claim. A volume is only bound if either persistence.enablePersistence is set to true. | |
+|             | enablePersistence | When true, the TXSeries region/SFS Server resources will be persisted to the volume bound according to the persistence parameters. | true(default) or false|
 |             | useDynamicProvisioning | If true, the persistent volume claim will use the storageClassName to bind the volume. If storageClassName is not set it will use the default storageClass setup by kube Administrator.  If useDynamicProvisioning is set to false, the selector will be used for the binding process. | true (default) or false |
 |             | storageClassName       | Specifies a StorageClass pre-created by the Kubernetes sysadmin. When set to "", then the persitence volume claim (PVC) is bound to the default storageClass setup by kube Administrator. | |
 |             | selector.label         | When matching a persistent volume, the label is used to find a match on the key. See  [Labels and Selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) | |
